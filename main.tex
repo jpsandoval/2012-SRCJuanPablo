@@ -1,0 +1,285 @@
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%\documentclass[runningheads]{llncs}
+%\documentclass[10pt,letterpaper,twocolumn]{article}
+\documentclass{sig-alternate}
+
+
+% packages
+\usepackage{xspace}
+\usepackage{ifthen}
+\usepackage{amsbsy}
+\usepackage{amssymb}
+\usepackage{balance}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{needspace}
+\usepackage{microtype}
+\usepackage{bold-extra}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+
+
+% constants
+\newcommand{\Title}{Tracking The Performance Evolution}
+\newcommand{\TitleShort}{\Title}
+\newcommand{\Authors}{Juan Pablo Sandoval}
+\newcommand{\AuthorsShort}{J. P. Sandoval}
+
+% references
+\usepackage[colorlinks]{hyperref}
+\usepackage[all]{hypcap}
+\setcounter{tocdepth}{2}
+\hypersetup{
+	colorlinks=true,
+	urlcolor=black,
+	linkcolor=black,
+	citecolor=black,
+	plainpages=false,
+	bookmarksopen=true,
+	pdfauthor={\Authors},
+	pdftitle={\Title}}
+
+\def\chapterautorefname{Chapter}
+\def\appendixautorefname{Appendix}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\figureautorefname{Figure}
+\def\tableautorefname{Table}
+\def\listingautorefname{Listing}
+
+% source code
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{listings}
+\definecolor{source}{gray}{0.9}
+\lstset{
+	language={},
+	% characters
+	tabsize=3,
+	upquote=true,
+	escapechar={!},
+	keepspaces=true,
+	breaklines=true,
+	alsoletter={\#:},
+	breakautoindent=true,
+	columns=fullflexible,
+	showstringspaces=false,
+	basicstyle=\footnotesize\sffamily,
+	% background
+	frame=single,
+    framerule=0pt,
+	backgroundcolor=\color{source},
+	% numbering
+	numbersep=5pt,
+	numberstyle=\tiny,
+	numberfirstline=true,
+	% captioning
+	captionpos=b,
+	% formatting (html)
+	moredelim=[is][\textbf]{<b>}{</b>},
+	moredelim=[is][\textit]{<i>}{</i>},
+	moredelim=[is][\color{red}\uwave]{<u>}{</u>},
+	moredelim=[is][\color{red}\sout]{<del>}{</del>},
+	moredelim=[is][\color{blue}\underline]{<ins>}{</ins>}}
+\newcommand{\ct}{\lstinline[backgroundcolor=\color{white},basicstyle=\footnotesize\ttfamily]}
+\newcommand{\lct}[1]{{\small\tt #1}}
+
+% tikz
+% \usepackage{tikz}
+% \usetikzlibrary{matrix}
+% \usetikzlibrary{arrows}
+% \usetikzlibrary{external}
+% \usetikzlibrary{positioning}
+% \usetikzlibrary{shapes.multipart}
+% 
+% \tikzset{
+% 	every 	picture/.style={semithick},
+% 	every text node part/.style={align=center}}
+
+% proof-reading
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\newcommand{\ra}{$\rightarrow$}
+\newcommand{\ugh}[1]{\textcolor{red}{\uwave{#1}}} % please rephrase
+\newcommand{\ins}[1]{\textcolor{blue}{\uline{#1}}} % please insert
+\newcommand{\del}[1]{\textcolor{red}{\sout{#1}}} % please delete
+\newcommand{\chg}[2]{\textcolor{red}{\sout{#1}}{\ra}\textcolor{blue}{\uline{#2}}} % please change
+\newcommand{\chk}[1]{\textcolor{ForestGreen}{#1}} % changed, please check
+
+% comments \nb{label}{color}{text}
+\newboolean{showcomments}
+\setboolean{showcomments}{true}
+\ifthenelse{\boolean{showcomments}}
+	{\newcommand{\nb}[3]{
+		{\colorbox{#2}{\bfseries\sffamily\scriptsize\textcolor{white}{#1}}}
+		{\textcolor{#2}{\sf\small$\blacktriangleright$\textit{#3}$\blacktriangleleft$}}}
+	 \newcommand{\version}{\emph{\scriptsize$-$Id$-$}}}
+	{\newcommand{\nb}[2]{}
+	 \newcommand{\version}{}}
+\newcommand{\rev}[2]{\nb{Reviewer #1}{red}{#2}}
+\newcommand{\ab}[1]{\nb{Alexandre}{blue}{#1}}
+\newcommand{\vp}[1]{\nb{Vanessa}{orange}{#1}}
+
+% graphics: \fig{position}{percentage-width}{filename}{caption}
+\DeclareGraphicsExtensions{.png,.jpg,.pdf,.eps,.gif}
+\graphicspath{{figures/}}
+\newcommand{\fig}[4]{
+	\begin{figure}[#1]
+		\centering
+		\includegraphics[width=#2\textwidth]{#3}
+		\caption{\label{fig:#3}#4}
+	\end{figure}}
+
+\newcommand{\largefig}[4]{
+	\begin{figure*}[#1]
+		\centering
+		\includegraphics[width=#2\textwidth]{#3}
+		\caption{\label{fig:#3}#4}
+	\end{figure*}}
+	
+\newcommand{\wrapfig}[5]{	
+\begin{wrapfigure}{#1}{#2\textwidth}
+  \begin{center}
+    \includegraphics[width=#3\textwidth]{#4}
+  \end{center}
+  \caption{\label{fig:#4}#5}
+\end{wrapfigure}}
+
+% abbreviations
+\newcommand{\ie}{\emph{i.e.,}\xspace}
+\newcommand{\eg}{\emph{e.g.,}\xspace}
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+
+% lists
+\newenvironment{bullets}[0]
+	{\begin{itemize}}
+	{\end{itemize}}
+
+\newcommand{\seclabel}[1]{\label{sec:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\appref}[1]{Appendix~\ref{sec:#1}}
+\newcommand{\figlabel}[1]{\label{fig:#1}}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\tablabel}[1]{\label{tag:#1}}
+\newcommand{\tabref}[1]{Table~\ref{fig:#1}}
+
+
+%Specialized macros
+\pagenumbering{arabic}
+
+\begin{document}
+
+\title{\Title}
+%\titlerunning{\TitleShort}
+
+\author{\Authors\\[3mm]
+Department of Computer Science (DCC)\\ University of Chile, Santiago, Chile\\[1 ex]
+} 
+%\authorrunning{\AuthorsShort}
+
+\maketitle
+
+%\emph{This paper makes use of colored figures. Though colors are not mandatory for full understanding, we recommend  the use of a colored printout.}
+
+\begin{abstract}
+
+The common profilers use the runtime information to aid program optimization in a particular version of software.
+Over time, programs as applications continue to develop and repeatedly updating it for various reasons and producing differents versions. Sometimes this proccess can decline the performance. 
+
+I this paper we propose use the profiling information to compare the different versions of the software to found the cause that decline the performance. Also present to Rizel an approach to track the peformance evolution, that allows display a easy peformance differentiation visualization.
+
+\end{abstract}
+
+%: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Introduction}\seclabel{problem}
+
+The continue development and maintenance of sofware sometimes occasions a decline performance. The profiler is a form of dynamic program analysis that measures, for example, execution time, usage of memory, among others. The most profilers peform the analysis of a version of the software, they usualy help detect bottlenecks and some of them also provide support to remove these bottlenecks [?].
+
+% adding new features, new requirementas and fixing bugs.
+
+Mondrian is an open source information visualization engine, it is in constant updating adding new features, and fixing found bugs. Today the users note that Mondrian is more slow than before. And this is not the first time that the developers ask your self: ``When Mondrian became too slow?''. An approach for answer this
+
+
+We propose the Behavioral evolution blueprint as an effective and intuitive visualization
+that complements Structural distribution blueprint and Behavioral distribution blueprint, two
+visualizations of a unique profile snapshot. This third blueprint focuses on differencing profiles
+of two or more snapshots. A visualization always differentiates two profiles of the same application
+and benchmark, but for different software versions. Behavioral evolution blueprint helps tracking
+down the cause of a performance increase or decrease
+
+
+%Actually is possible to detect bottlenecks analysing in only one version, also the most common profilers can help for this.
+
+%The behavioral evolution blueprint compares profiles of different versions of a software system and highlights performance-critical changes in the system.
+These three blueprints helped us to significantly optimize Mondrian, an open source visualization engine.
+%For this approach is nescesary a well define execution escenario, but found the most slow method is not enough because … 
+
+\section{Challenges in Keeping trace of Performances}\seclabel{problem}
+
+Metric to measure the performance.- A usual way to measure is get the execution time involved in the execution, but this metric is volatile, because execute the same instructions in the same version can throws diferent execution time. Because it depends of differents factores, cpu state, history. We propose count Messages as a Proxy for Average Execution Time [?].
+
+Defining a benchmark.- This could be the most difficult task, because it will be executed in differents versions of our code and it should be good enough to reproduce the performance deficience.
+
+We propose keep trace of perfomances to the differents versions of the software to know in what version decline the performance. This help us to know what feature or bug fixed ocacione? the slow performance, in other words, we could found the cause of the decline performance.
+
+%An application could  worsen or improve in differents version, 
+
+
+
+%The most difficult task is define an execution scenario, that could be executed in the versions of the software that we are analysing without throws an exception and good enough to reproduce the performance deficience.
+
+%Execution time is not deterministic, in these sence if we execute several times the same code, a profile show us diferent times. 
+%This is a problem in our case beacause we wan compare the performance of many versions of the applications. 
+%Use the execution time to compare the performance is not the better way. We propose use the number of messages to compare the performance, the number of messages is so useful to detect bottlenecks as the execution time [?].
+
+
+%: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Rizel: Performances across program versions}\seclabel{solution}
+
+Rizel is a tool that examine the performances across program versions, providing a friendly visualization. 
+
+that allows run a benchmark in a set of user defined versions keeping track of the profiled information in each execution.
+%Rizel is an application based in Spy[?] that allow evaluate a well defined execution scenario across program versions.
+
+%Rizel provide a friendly visualizations that show the performance evolution \figref{}.
+%In a global way or by method.
+
+%\ab{What are the ingredients of Rizel? }
+\begin{itemize}
+\item Running a benchmark for a particular application versions.
+\item Counting messages as a Proxy for Average Execution Time.
+\item Jumping between versions using Dicotomic search to find most recient the decline performance.
+\item Minimizing the effect (\eg caches, JIT) between multiple run.
+\item Exposing the evolution of the performances.
+\end{itemize}	
+
+It uses compteour profiler [?] to retrieve the number of messages involved in an execution. Rizel search the most recient decline peformance using dicotomic search, for this first sort the versions cronologically and tries to execute the benchmark as little as possible. 
+
+\fig{}{0.5}{picture1}{}
+\fig{}{0.5}{picture2}{}
+
+%\ab{Screenshot of Rizel}
+
+%: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Conclusion \& Future Work}\seclabel{conclusion}
+
+Keep track of profiling information, for example,number of messages, execution time, the usage of memory, among others. Can help us to aid program optimization.
+
+In our aproach we propose detect the cause of decline performance. Compare the peformance across program versions is only our firts aproach in differentation profiling.
+
+%\ab{What is your vision?}
+
+%\paragraph{Acknowledments} We thanks 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+%{\small
+\bibliographystyle{plain}
+\bibliography{scg}
+%}
+
+%: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\end{document}
