@@ -199,21 +199,14 @@ The continue development and maintenance of sofware sometimes occasions a declin
 
 % adding new features, new requirementas and fixing bugs.
 
-Mondrian is an open source information visualization engine, it is in constant updating adding new features, and fixing found bugs. Today the users note that Mondrian is more slow than before. And this is not the first time that the developers ask your self: ``When Mondrian became too slow?''. An approach for answer this
-
-
-We propose the Behavioral evolution blueprint as an effective and intuitive visualization
-that complements Structural distribution blueprint and Behavioral distribution blueprint, two
-visualizations of a unique profile snapshot. This third blueprint focuses on differencing profiles
-of two or more snapshots. A visualization always differentiates two profiles of the same application
-and benchmark, but for different software versions. Behavioral evolution blueprint helps tracking
-down the cause of a performance increase or decrease
-
+Mondrian is an open source information visualization engine, it is in constant updating adding new features, and fixing found bugs. Today the users note that Mondrian is more slow than before. And this is not the first time that the developers ask your self: ``When Mondrian became too slow?''. An approach for answer this ...
 
 %Actually is possible to detect bottlenecks analysing in only one version, also the most common profilers can help for this.
 
 %The behavioral evolution blueprint compares profiles of different versions of a software system and highlights performance-critical changes in the system.
 These three blueprints helped us to significantly optimize Mondrian, an open source visualization engine.
+
+We propose keep trace of perfomances to the differents versions of the software to know in what version decline the performance. This help us to know what feature or bug fixed ocacione? the slow performance, in other words, we could found the cause of the decline performance.
 %For this approach is nescesary a well define execution escenario, but found the most slow method is not enough because … 
 
 \section{Challenges in Keeping trace of Performances}\seclabel{problem}
@@ -222,7 +215,7 @@ Metric to measure the performance.- A usual way to measure is get the execution 
 
 Defining a benchmark.- This could be the most difficult task, because it will be executed in differents versions of our code and it should be good enough to reproduce the performance deficience.
 
-We propose keep trace of perfomances to the differents versions of the software to know in what version decline the performance. This help us to know what feature or bug fixed ocacione? the slow performance, in other words, we could found the cause of the decline performance.
+Another challenge is handle a several number of versions,
 
 %An application could  worsen or improve in differents version, 
 
@@ -265,7 +258,7 @@ It uses compteour profiler [?] to retrieve the number of messages involved in an
 %: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Conclusion \& Future Work}\seclabel{conclusion}
 
-Keep track of profiling information, for example,number of messages, execution time, the usage of memory, among others. Can help us to aid program optimization.
+Keep track of profiling information, for example, number of messages, execution time, the usage of memory, among others. Can help us to aid program optimization.
 
 In our aproach we propose detect the cause of decline performance. Compare the peformance across program versions is only our firts aproach in differentation profiling.
 
