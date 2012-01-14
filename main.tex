@@ -176,7 +176,7 @@
 \title{\Title}
 %\titlerunning{\TitleShort}
 
-\author{\Authors\\[3mm]
+\author{\Authors\\%\\[3mm]
 Department of Computer Science (DCC), University of Chile
 } 
 %\authorrunning{\AuthorsShort}
@@ -246,13 +246,12 @@ We define \emph{multidimensional profiling} the activity to reason about a softw
 %The rational behind multidimensional profiling is that if a software execution is particularly fast or slow for an identified situation (\ie particular values for the variables), then the situation can be exploited to improve the overall execution.
 
 \paragraph{In a nutshell}
-
 The ingredients to accurately exercise multidimensional profiling are:
 
 \begin{itemize}
 \item \emph{Define the variation points of the executing environment}. Define the set of variables of interest $(V_1, ..., V_n)$ that describe the executing environment. Each of these variables is associated to a particular aspect of the execution environment, such as software version, benchmark, parameters of a particular methods, instances of a particular class. 
 
-\item \emph{Specify the variation of the executing environment}. Each variable may either be set to a fixed value, or may iterate over a set of values. Each iteration produces a new profile. To better measure the impact of a variable evolution, it is preferable to have all but one variable fixed. These multiple executions result in a set of profiles $P_{1..m}$. 
+\item \emph{Specify the variation of the executing environment}. Each variable may either be set to a fixed value, or may iterate over a set of values. Each iteration produces a new profile. To better measure the impact of a variable evolution, it is preferable to have all but one variable fixed. These executions result in a set of profiles $P_{1..m}$. 
 
 %Automatically iterate over a set of values for a particular variable $V_i \in \{v_{i,1}, ..., v_{i,m}\}$. Each iteration produces a new profile $P_j = \textit{execute}_i(v_{i,j})$, result of executing the software with all the variables $(V_1, ..., V_n)$ into account. All the variables $V_{1..n}$ are fixed to particular values $v_{1..n}$, except $V_i$ that iterates over $\{v_{i,1}, ..., v_{i,m}\}$. These multiple executions result in a set of profiles $P_{1..m}$. 
 
@@ -271,10 +270,10 @@ We have prototyped Rizel, a multidimensional profiler. Rizel is implemented for 
 Our profiler measures the number of messages sent by each method. It has been shown~\cite{Berg11d} that counting messages has many advantages over estimating the execution time. For example, counting messages is significantly more stable than directly measuring the time: profiling twice a same execution result in two very close profiles. Counting message produce stable profiles.
 
 \paragraph{Case study}
-We have run Rizel on the Mondrian software to measure the performance of Mondrian of 6 benchmarks and 11 representative versions. 
-The left-most diagram shows the evolution of the benchmarks against the version of Mondrian. We see that each benchmark indicate a progressively degradation of the performance of Mondrian. Each of these benchmarks correspond to a particular feature. Each feature is getting slower, not at the same pace however (\eg Benchmarks 3-6 are consuming much more time after Version 2.93. Benchmark 1 indicate a slowdown after Version 2.65.)
+We have measured the performance of Mondrian for 6 benchmarks over 11 representative versions. 
+The left-most diagram shows the evolution of the benchmarks against the version of Mondrian. We see that each benchmark indicates a progressive degradation of the performance of Mondrian. Each of these benchmarks corresponds to a particular feature. Each feature is getting slower, not at the same pace however (\eg Benchmarks 3-6 are consuming much more time after Version 2.93. Execution time of Benchmark 1 increases after Version 2.65.)
 
-
+We detail the evolution of Benchmarks 6 and 1 on the right hand side of \figref{final2}. Both histograms describes the increase of the execution time, which representing a gradual degradation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
