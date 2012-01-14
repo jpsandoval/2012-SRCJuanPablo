@@ -222,6 +222,8 @@ Tracking down the major software changes that are responsible for this loose of 
 
 JProfile\footnote{\url{http://www.ej-technologies.com}} and YourKit\footnote{\url{http://www.yourkit.com}} are two popular commercial profilers. Both support a comparison of profiles by indicating the difference in absolute and relative CPU consumption time of each method. Although useful to keep track of the overall performance, knowing the difference of method execution is insufficient to understand the reasons of a performance variation. 
 
+\largefig{}{0.7}{final}{}
+
 For our example with Mondrian, we have the following questions:
 \begin{itemize}
 \item \emph{Has the performance decreased for all the different benchmarks of Mondrian? Or only a few of them?} (Mondrian has dozen of different benchmarks to monitor the performance of some particular features)
@@ -238,7 +240,6 @@ When applied to our example with Mondrian, JProfiler and YourKit are helpless to
 We define \emph{multidimensional profiling} the activity to reason about a software execution based on varying multiple variables related to its execution. Our objective is to obtain a better understanding of a software execution by relating different execution profiles, in order to find opportunities for optimization ultimately.
 
 The rational behind multidimensional profiling is that if a software execution is particularly fast or slow for an identified situation (\ie particular values for the variables), then the situation can be exploited to improve the overall execution.
-
 \paragraph{In a nutshell}
 
 The ingredients to accurately exercise multidimensional profiling are:
@@ -254,12 +255,12 @@ The ingredients to accurately exercise multidimensional profiling are:
 \end{itemize}
 
 \paragraph{Implementation}
-
 We have prototyped Rizel, a multidimensional profiler. Rizel is implemented for the Pharo Smalltalk language and is built upon a set of established techniques and frameworks. The set of variables that Rizel actually captures are the benchmarks and software versions. This means that we can:
 \begin{itemize}
 \item run a particular benchmark $b$ for multiple versions of a software $s_1, ... , s_k$
 \item run different benchmark $b_1, ..., b_l$ for a particular software version $s$
 \end{itemize}
+
 
 Our profiler measures the number of messages sent by each method. It has been shown~\cite{Berg11d} that counting messages has many advantages over estimating the execution time. For example, counting messages is significantly more stable than directly measuring the time: profiling twice a same execution result in two very close profiles. Counting message therefore satisfies the third ingredient described above.
 
