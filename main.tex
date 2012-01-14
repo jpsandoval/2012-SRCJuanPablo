@@ -1,7 +1,8 @@
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %\documentclass[runningheads]{llncs}
 %\documentclass[10pt,letterpaper,twocolumn]{article}
-\documentclass{sig-alternate}
+%\documentclass{sig-alternate}
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
 
 
 % packages
@@ -176,7 +177,7 @@
 %\titlerunning{\TitleShort}
 
 \author{\Authors\\[3mm]
-Department of Computer Science (DCC)\\ University of Chile, Santiago, Chile\\[1 ex]
+Department of Computer Science (DCC), University of Chile
 } 
 %\authorrunning{\AuthorsShort}
 
@@ -184,89 +185,106 @@ Department of Computer Science (DCC)\\ University of Chile, Santiago, Chile\\[1 
 
 %\emph{This paper makes use of colored figures. Though colors are not mandatory for full understanding, we recommend  the use of a colored printout.}
 
-\begin{abstract}
-%What is the problem
-An application execution profile has a meaning only when it is compared to another profile obtained from a slightly different condition. Knowing that a method is faster for a particular input or software version is essential ...
-Current profiler do not support performance comparison across multiple profiles. 
-%Why the problem is a problem
-As a consequence, profiling multiple executions is often realized in an ad-hoc fashion, often resulting in missing opportunities for caching.
-
-%What is the surprise
-Providing multiple execution 
-
-%What are the consequences
-We 
-
-
-%The common profilers use the runtime information to aid program optimization in a particular version of software.
-%Over time, programs as applications continue to develop and repeatedly updating it for various reasons and producing differents versions. Sometimes this proccess can decline the performance. 
+%\begin{abstract}
+%%What is the problem
+%An application execution profile has a meaning only when it is compared to another profile obtained from a slightly different condition. Knowing that a method is faster for a particular input or software version is essential ...
+%Current profiler do not support performance comparison across multiple profiles. 
+%%Why the problem is a problem
+%As a consequence, profiling multiple executions is often realized in an ad-hoc fashion, often resulting in missing opportunities for caching.
 %
-%I this paper we propose use the profiling information to compare the different versions of the software to found the cause that decline the performance. Also present to Rizel an approach to track the peformance evolution, that allows display a easy peformance differentiation visualization.
-
-\end{abstract}
+%%What is the surprise
+%Providing multiple execution 
+%
+%%What are the consequences
+%We 
+%
+%
+%%The common profilers use the runtime information to aid program optimization in a particular version of software.
+%%Over time, programs as applications continue to develop and repeatedly updating it for various reasons and producing differents versions. Sometimes this proccess can decline the performance. 
+%%
+%%I this paper we propose use the profiling information to compare the different versions of the software to found the cause that decline the performance. Also present to Rizel an approach to track the peformance evolution, that allows display a easy peformance differentiation visualization.
+%\end{abstract}
 
 %: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-\section{Introduction}\seclabel{problem}
+\section{Profiling evolution}\seclabel{problem}
 
 Measuring the execution performance of an application is essentially realized by varying some parameters and profiling the program execution for each variation. Identifying which method is slower, for which argument and on which objects is crucial to precisely understand the reason of a slow or fast execution. Moreover, an optimal execution is often used as a target for not-so-optimal executions. Caches are inserted and optimizations are implemented until the performance of a not-so-optimal execution is close enough to the optimal one.
 
 Unfortunately, this work is essentially realized by the software engineer in an ad-hoc manner. Set of benchmarks are manually constructed to measure the application performance for each slight variation. Typical variations includes the size of the data input, versions of an algorithm or a sequence of function executions. As surprising as it may seem, 
-current profilers are either unable to compare multiple executions, or offers primitive comparison facilities.
+current profilers are either unable to compare multiple executions, or offers superficial comparison facilities.
 
-Before going into detail about the existing profilers, consider the following situation that was faced during the development of Mondrian\footnote{\url{http://moosetechnology.org/tools/mondrian}}, an agile visualization engine. Mondrian represents any arbitrary data as a graph, in which each nodes and edges has a graphical representation that depends on some metrics and properties computed from the data.
-About two years ago, one user of Mondrian identified a particular visualization in which Mondrian behaved significantly slower than usual. The visualization involved an amount of nodes in a particular combination that the developers of Mondrian did not experiment before. The problem was quickly found and solved. Mondrian was about 30\% faster for the situation that was problematic. 
+Before going into detail about the existing profilers, consider the following situation that was faced during the development of Mondrian\footnote{\url{http://moosetechnology.org/tools/mondrian}}, an agile visualization engine. Mondrian display an arbitrary set of data as a graph, in which each node and edge has a graphical representation shaped with metrics and properties computed from the data.
+%About two years ago, a user of Mondrian identified a particular visualization in which Mondrian behaved significantly slower than usual. The visualization involved an amount of nodes in a particular combination that the developers of Mondrian did not experiment before. The problem was quickly found and solved. Mondrian was about 30\% faster for the situation that was problematic. 
+About two years ago, an optimization was implemented and made Mondrian 30\% faster. The optimization was measured with a set of benchmarks.
 
-During the last two years, Mondrian has been in a continuous development. As Mondrian has gained new users, new requirements have been implemented to satisfy user wishes. Whereas the range of offered features is getting wider, the performance of Mondrian have slowly decreased for some of the benchmarks. The optimization that helps reduce the execution time by 30\% seems to have vanished somehow for some particular situations. 
+During the last two years, Mondrian has been in a continuous development. As Mondrian has gained new users, new requirements have been implemented to satisfy user wishes. Whereas the range of offered features has gotten wider, the performance of Mondrian have slowly decreased for some of the benchmarks. The optimization that helps reduce the execution time by 30\% seems to have vanished somehow for some particular situations. 
 
-Tracking down the major software changes that are responsible for this loose of performance is not easy, essentially because of the lack of adequate tools. Consider the commonly-used Java profilers\footnote{We have conducted all our experiments in the Pharo programming language. It is however easy to guess how it would have been perform in Java.}. xprof\footnote{\url{http://bit.ly/xprofiler}} is built-in the Java virtual machine and is essentially used by the Just-in-time compiler. hprof\footnote{\url{http://bit.ly/hprofiler}} is the profiler promoted by Oracle. Both xprof and hprof report the CPU time consumption for each method for an application execution. The comparison of two profiles to identify the difference of execution has to be done manually, which is a tedious and laborious task.
+Tracking down the software changes that are responsible for this loose of performance is not easy, essentially because of the lack of adequate tools. Consider the commonly-used Java profilers\footnote{We have conducted all our experiments in the Pharo programming language. It is however easy to guess how it would have been perform with Java profilers.}. xprof\footnote{\url{http://bit.ly/xprofiler}} is built in the Java virtual machine and is essentially used by the Just-in-time compiler. hprof\footnote{\url{http://bit.ly/hprofiler}} is the profiler promoted by Oracle. Both xprof and hprof report the CPU time consumption for each method for an application execution. The comparison of two profiles to identify the difference of execution has to be done manually, which is a tedious and laborious task.
 
-JProfile\footnote{\url{http://www.ej-technologies.com}} and YourKit\footnote{\url{http://www.yourkit.com}} are two popular commercial profilers. Both support a comparison of profiles by indicating the difference in absolute and relative CPU consumption time of each method. Although useful to keep track of the overall performance, knowing the difference of method execution is insufficient to understand the reasons of a performance variation. 
+JProfile\footnote{\url{http://www.ej-technologies.com}} and YourKit\footnote{\url{http://www.yourkit.com}} are two popular commercial profilers. Both support a comparison of profiles by indicating the difference in absolute and relative CPU consumption time of each method. Although useful to keep track of the overall performance, knowing the difference of method execution is insufficient to understand the reasons of the performance variation we are facing. 
 
-\largefig{}{0.7}{final}{}
+\largefig{}{0.6}{final}{Multidimensional profiling of Mondrian (6 benchmarks are run for 11 software versions).}
 
 For our example with Mondrian, we have the following questions:
 \begin{itemize}
-\item \emph{Has the performance decreased for all the different benchmarks of Mondrian? Or only a few of them?} (Mondrian has dozen of different benchmarks to monitor the performance of some particular features)
+\item \emph{Has the performance decreased for all the different benchmarks of Mondrian? Or only a few of them?} (Mondrian has dozen of different benchmarks to monitor each feature performance)
+
 \item \emph{Is there a particular version of Mondrian that initiated the performance decrease?} (Mondrian has an history long of nearly 1,000 source code versions)
-\item \emph{Is there a way to relate a particular version of a method with the loose of performance?} (Each new version of Mondrian may update several methods)
-\item \emph{Is the decrease of performance equally distributed over all the objects used in a visualization, or only a part of it?} (Millions of object are used in a Mondrian visualization, it is not clear which objects contribute ``more than other'' to a slowdown)
+
+%\item \emph{Is there a way to relate a particular version of a method with the loose of performance?} (Each new version of Mondrian may update several methods)
+
+%\item \emph{Is the decrease of performance equally distributed over all the objects used in a visualization, or only a part of it?} (Millions of object are used in a Mondrian visualization, it is not clear which objects contribute ``more than other'' to a slowdown)
 \end{itemize}
 
-When applied to our example with Mondrian, JProfiler and YourKit are helpless to answer any of those questions. The reason is that the comparison exercised by JProfiler and YourKit does not capture all the variables that these questions refer to, such as the benchmarks, software versions, method versions, and objects. Being able to profile an application along several variables is the topic of our work.
+When applied to our example with Mondrian, xprof, hprof, JProfiler and YourKit are helpless to answer any of those questions. The reason is that the profile comparison exercised by JProfiler and YourKit does not capture all the variables that these questions refer to, such as the benchmarks and software versions. Being able to profile an application along several variables is the topic of our work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multidimensional Profiling}
 
-We define \emph{multidimensional profiling} the activity to reason about a software execution based on varying multiple variables related to its execution. Our objective is to obtain a better understanding of a software execution by relating different execution profiles, in order to find opportunities for optimization ultimately.
+We define \emph{multidimensional profiling} the activity to reason about a software execution by varying multiple variables related to its execution. Typical variables are benchmarks and software versions. Our objective is to gain a better understanding of a software execution by relating different profiles obtained from slightly different conditions. Opportunities for optimization and ways to minimize resource consumption are then easier to find.
 
-The rational behind multidimensional profiling is that if a software execution is particularly fast or slow for an identified situation (\ie particular values for the variables), then the situation can be exploited to improve the overall execution.
+%The rational behind multidimensional profiling is that if a software execution is particularly fast or slow for an identified situation (\ie particular values for the variables), then the situation can be exploited to improve the overall execution.
+
 \paragraph{In a nutshell}
 
 The ingredients to accurately exercise multidimensional profiling are:
 
 \begin{itemize}
-\item Define the set of variables of interest $(V_1, ..., V_n)$ that describe the executing environment. Each of these variables is associated a particular aspect of the execution environment, such as software version, benchmark, parameters of a particular methods, instances of a particular class. 
+\item \emph{Define the variation points of the executing environment}. Define the set of variables of interest $(V_1, ..., V_n)$ that describe the executing environment. Each of these variables is associated to a particular aspect of the execution environment, such as software version, benchmark, parameters of a particular methods, instances of a particular class. 
 
-\item Automatically iterate over a set of values for a particular variable $V_i \in \{v_{i,1}, ..., v_{i,m}\}$. Each iteration produces a new profile $P_j = \textit{execute}_i(v_{i,j})$, result of executing the software with all the variables $(V_1, ..., V_n)$ into account. All the variables $V_{1..n}$ are fixed to particular values $v_{1..n}$, except $V_i$ that iterates over $\{v_{i,1}, ..., v_{i,m}\}$. These multiple executions result in a set of profiles $P_{1..m}$. 
+\item \emph{Specify the variation of the executing environment}. Each variable may either be set to a fixed value, or may iterate over a set of values. Each iteration produces a new profile. To better measure the impact of a variable evolution, it is preferable to have all but one variable fixed. These multiple executions result in a set of profiles $P_{1..m}$. 
 
-\item Each execution has to be repeatable and isolated from other executions. This means that two profiles $P_j$ and $P'_j$ produced by two identical executions have to be ``close enough'' to be meaningful.
+%Automatically iterate over a set of values for a particular variable $V_i \in \{v_{i,1}, ..., v_{i,m}\}$. Each iteration produces a new profile $P_j = \textit{execute}_i(v_{i,j})$, result of executing the software with all the variables $(V_1, ..., V_n)$ into account. All the variables $V_{1..n}$ are fixed to particular values $v_{1..n}$, except $V_i$ that iterates over $\{v_{i,1}, ..., v_{i,m}\}$. These multiple executions result in a set of profiles $P_{1..m}$. 
 
-\item Having a representation of the profile difference. The evolution of $V_i$ has to be unambiguously represented to be able to draw a conclusion about the performance evolution.
+\item \emph{Having the profile stables}. Each execution has to be repeatable and isolated from other executions. This means that two profiles $P_j$ and $P'_j$ produced by two identical executions have to be ``close enough'' to be meaningful.
+
+\item \emph{Presenting the results.} Having a representation of the profile difference. The evolution of $V_i$ has to be unambiguously represented to be able to draw a conclusion about the performance evolution.
 \end{itemize}
 
 \paragraph{Implementation}
-We have prototyped Rizel, a multidimensional profiler. Rizel is implemented for the Pharo Smalltalk language and is built upon a set of established techniques and frameworks. The set of variables that Rizel actually captures are the benchmarks and software versions. This means that we can:
+We have prototyped Rizel, a multidimensional profiler. Rizel is implemented for the Pharo Smalltalk language. The set of variables that Rizel currently consider are benchmarks and software versions. This means that Rizel can:
 \begin{itemize}
 \item run a particular benchmark $b$ for multiple versions of a software $s_1, ... , s_k$
 \item run different benchmark $b_1, ..., b_l$ for a particular software version $s$
 \end{itemize}
 
+Our profiler measures the number of messages sent by each method. It has been shown~\cite{Berg11d} that counting messages has many advantages over estimating the execution time. For example, counting messages is significantly more stable than directly measuring the time: profiling twice a same execution result in two very close profiles. Counting message produce stable profiles.
 
-Our profiler measures the number of messages sent by each method. It has been shown~\cite{Berg11d} that counting messages has many advantages over estimating the execution time. For example, counting messages is significantly more stable than directly measuring the time: profiling twice a same execution result in two very close profiles. Counting message therefore satisfies the third ingredient described above.
+\paragraph{Case study}
+We have run Rizel on the Mondrian software to measure the performance of Mondrian of 6 benchmarks and 11 representative versions. 
+The left-most diagram shows the evolution of the benchmarks against the version of Mondrian. We see that each benchmark indicate a progressively degradation of the performance of Mondrian. Each of these benchmarks correspond to a particular feature. Each feature is getting slower, not at the same pace however (\eg Benchmarks 3-6 are consuming much more time after Version 2.93. Benchmark 1 indicate a slowdown after Version 2.65.)
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion \& Future Work}
+
+Multidimensional profiling is an innovative approach to measure software performance: crystalizing the performance of each software feature into a dedicated benchmark makes it possible to precisely monitor the global performance of a software against different versions.
+
+As a future work, we plan to consider additional variables such as the distribution of the CPU time consumption over classes and methods. We will then affine our analysis by drilling down to the cause of a slowdown by identifying the method revision responsible of a slower performance.
+
+We will then concentrate on identifying pattern to describe the evolution of feature performance across multiple software versions. As far as we are aware of, all these points have not been considered by the research community on software performance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
