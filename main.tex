@@ -186,23 +186,10 @@ Department of Computer Science (DCC), University of Chile
 %\emph{This paper makes use of colored figures. Though colors are not mandatory for full understanding, we recommend  the use of a colored printout.}
 
 %\begin{abstract}
-%%What is the problem
-%An application execution profile has a meaning only when it is compared to another profile obtained from a slightly different condition. Knowing that a method is faster for a particular input or software version is essential ...
-%Current profiler do not support performance comparison across multiple profiles. 
-%%Why the problem is a problem
+%An application execution profile has a meaning only when it is compared to another profile obtained from a slightly different executing context. Unfortunately, current profilers do not efficiently support performance comparison across multiple profiles. 
 %As a consequence, profiling multiple executions is often realized in an ad-hoc fashion, often resulting in missing opportunities for caching.
 %
-%%What is the surprise
-%Providing multiple execution 
-%
-%%What are the consequences
-%We 
-%
-%
-%%The common profilers use the runtime information to aid program optimization in a particular version of software.
-%%Over time, programs as applications continue to develop and repeatedly updating it for various reasons and producing differents versions. Sometimes this proccess can decline the performance. 
-%%
-%%I this paper we propose use the profiling information to compare the different versions of the software to found the cause that decline the performance. Also present to Rizel an approach to track the peformance evolution, that allows display a easy peformance differentiation visualization.
+%We propose multidimensional profiling as a way to repeatedly profile a software execution by varying some variables of the execution context. Having explicit execution variation points is key to precisely understand how a particular feature performance evolves along the version history of the software. We present the key ingredients to make multidimensional profiling effective and sketch the design of Rizel, an implementation in the Pharo programming language.
 %\end{abstract}
 
 %: % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
