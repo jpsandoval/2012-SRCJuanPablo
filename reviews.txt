@@ -1,0 +1,50 @@
+
+----------------------- REVIEW 1 ---------------------
+PAPER: 29
+TITLE: Multidimensional Profiling
+AUTHORS: Juan Pablo Sandoval Alcocer
+
+The authors report their experience of profiling an application over a series of versions and workloads(benchmarks), which the authors refer to as multi-dimensional profiling.
+
+I'm not sure what's novel and interesting about this paper. First, the entire concept in the paper is developed with respect to a particular experience and a particular non-mainstream application. The authors make no attempt of helping me generalize to at least a certain category of software in general. Second, the so-called multi-dimension profiling is nothing but running apps. with different workloads and different versions, recording the data, and analyzing the delta to look for interesting observations. The idea goes back 10 years ago to Zeller's delta debugging, which is already more useful than what the authors are presenting in this paper.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 29
+TITLE: Multidimensional Profiling
+AUTHORS: Juan Pablo Sandoval Alcocer
+
+This paper presents a technique "Multidimensional Profiling" that
+aims to provide a way for understanding performance of an application.
+To this end, the main insight is to vary multiple variables systematically
+to create different environment conditions and then compare various performance
+profile for each of these environments. It will be interesting to see if this approach
+can indeed be used for debugging performance failures.
+Related work:- the author might be interested in work done in path profiling, in particular,
+Ball-Larus profiling [MICRO] and Preferential Path Profiling [POPL 2007].
+
+Typo: "loose of performance" --> "loss of performance"
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 29
+TITLE: Multidimensional Profiling
+AUTHORS: Juan Pablo Sandoval Alcocer
+
+This paper describes a software visualization technique for displaying
+performance results of multiple benchmarks for multiple program
+versions. This is an extension of the Mondrian tool for Pharo
+Smalltalk: given a set of benchmarks and a set of versions, Mondrian's
+capabilities make displaying performance details relatively
+straightforward. The multidimensional visualisation tool does what it
+says on the tin --- indeed I could see more advanced statistical
+visualisation techniques being employed to present the results, but
+overall the research is worthwhile but not necessarily exciting or
+surprising. The paper doesn't explain why this is hard to do.
+What do we know about software that we didn't know before.
+
+Also, while the work is worthwhile, in many ways the writing needs
+more work. primarily for grammar & English expression.
+
+To encourage accountability, I'm signing all my reviews in 2012. For
+the record, I am James Noble, kjx@ecs.vuw.ac.nz.
